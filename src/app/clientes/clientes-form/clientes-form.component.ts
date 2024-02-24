@@ -25,9 +25,11 @@ export class ClientesFormComponent implements OnInit {
       .salvar(this.cliente)
       .subscribe(response => {
         this.sucesso = true;
+        this.errors = [];
+        this.cliente = response;
       }, errorResponse => {
         this.errors = errorResponse.error.errors;
-        console.log(errorResponse.error.errors)
+        this.sucesso = false;
       });
   }
 }
