@@ -10,14 +10,16 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="id">ID:</label>
-                        <input id="id" type="text" class="form-control" disabled>
+                        <input id="id" type="text" class="form-control"
+                        [ngModel]="cliente.id" name="id" disabled>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="dataCadastro">Data de Cadastro:</label>
-                        <input id="dataCadastro" type="text" class="form-control" disabled>
+                        <input id="dataCadastro" type="text" class="form-control"
+                            [ngModel]="cliente.dataCadastro" name="dataCadastro" disabled>
                     </div>
                 </div>
             </div>
@@ -27,21 +29,23 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="nome">Nome do Cliente: * </label>
-                        <input id="nome" type="text" class="form-control">
+                        <input id="nome" type="text" class="form-control" 
+                            [(ngModel)]="cliente.nome" name="nome">
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="cpf">CPF: * </label>
-                        <input id="cpf" type="text" class="form-control">
+                        <input id="cpf" type="text" class="form-control"
+                            [(ngModel)]="cliente.cpf" name="cpf">
                     </div>
                 </div>
             </div>
 
             <div class="row mt-3">
                 <div class="col-md-6">
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" (click)="salvar()">
                         <i class="fa fa-save"></i> Salvar
                     </button>
                 </div>
