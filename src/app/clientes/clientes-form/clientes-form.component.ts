@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'
+import { Router, ActivatedRoute } from '@angular/router'
 import { Cliente } from '../cliente';
 import { ClientesService } from '../../clientes.service';
 
@@ -13,25 +13,56 @@ export class ClientesFormComponent implements OnInit {
   cliente: Cliente;
   sucesso: boolean = false;
   errors: String[] = [];
+  idCliente: number;
 
-  constructor( private service: ClientesService, private router: Router ) { 
+  constructor( 
+    private service: ClientesService, 
+    private router: Router,
+    private activatedRoute: ActivatedRoute ) { 
     this.cliente = new Cliente();
   }
 
   ngOnInit(): void {
+    
+    let params = this.activatedRoute.params;
+  
+    if(params && params['_value'].id) {
+      this.idCliente = params['_value'].id;
+      this.service
+        .getClientePorId(this.idCliente)
+        .subscribe(
+          response => {this.cliente = response},
+          errorResponse => {this.errors = errorResponse.error.errors}        
+        )
+    }
   }
 
  onSubmit() {
-    this.service
-      .salvar(this.cliente)
-      .subscribe(response => {
+    if(this.idCliente){
+    
+      this.service
+       .atualizarCliente(this.cliente)
+       .subscribe(reponse => {
         this.sucesso = true;
         this.errors = [];
-        this.cliente = response;
-      }, errorResponse => {
-        this.errors = errorResponse.error.errors;
+       }, errorResponse => {
         this.sucesso = false;
-      });
+        this.errors = errorResponse.error.errors;
+       })
+    
+    } else {
+      
+      this.service
+        .salvar(this.cliente)
+        .subscribe(response => {
+          this.sucesso = true;
+          this.errors = [];
+          this.cliente = response;
+        }, errorResponse => {
+          this.errors = errorResponse.error.errors;
+          this.sucesso = false;
+        });
+    }    
   }
 
   voltar(){
