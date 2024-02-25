@@ -14,6 +14,7 @@ export class ClientesFormComponent implements OnInit {
   sucesso: boolean = false;
   errors: String[] = [];
   idCliente: number;
+  clienteJaCadastrado: Boolean = false;
 
   constructor( 
     private service: ClientesService, 
@@ -38,6 +39,7 @@ export class ClientesFormComponent implements OnInit {
   }
 
  onSubmit() {
+    
     if(this.idCliente){
     
       this.service
@@ -53,19 +55,32 @@ export class ClientesFormComponent implements OnInit {
     } else {
       
       this.service
-        .salvar(this.cliente)
+        .verificaClienteJaCadastrado(this.cliente.cpf)
         .subscribe(response => {
-          this.sucesso = true;
-          this.errors = [];
-          this.cliente = response;
+          if(response == false) {
+            this.service
+             .salvar(this.cliente)
+             .subscribe(response => {
+               this.sucesso = true;
+               this.errors = [];
+               this.cliente = response;
+             }, errorResponse => {
+               this.errors = errorResponse.error.errors;
+               this.sucesso = false;
+             });
+          } else {
+            this.errors = ['O cpf ' + this.cliente.cpf + ' já está cadastrado!']
+          }
         }, errorResponse => {
           this.errors = errorResponse.error.errors;
           this.sucesso = false;
-        });
-    }    
+        })
+
+    }
   }
 
   voltar(){
     this.router.navigate(['/clientes/listar'])
   }
+
 }

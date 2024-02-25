@@ -6,6 +6,17 @@
 
     <div class="row">
         <div class="col-md-12">
+            <div class="alert alert-success" role="alert" *ngIf="mensagemSucesso">
+                {{ mensagemSucesso }}
+            </div>
+            <div class="alert alert-danger" role="alert" *ngIf="mensagemErro">
+                {{ mensagemErro }}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
             <button class="btn btn-primary" (click)="novoCliente()">
                 <i class="fa fa-plus"></i> Novo</button>
         </div>
@@ -33,13 +44,34 @@
                         <td>{{ cliente.cpf }}</td>
                         <td>{{ cliente.dataCadastro }}</td>
                         <td>
-                            <button class="btn btn-primary" routerLink="/clientes/editar/{{ cliente.id }}">
-                                <i class="fas fa-pencil-alt"></i>
+                            <button class="btn btn-primary" title="Editar o cliente" routerLink="/clientes/editar/{{ cliente.id }}">
+                                <i class="fas fa-pencil-alt" ></i>
+                            </button>
+                            <button class="btn btn-danger ms-1" title="Excluir o cliente" data-bs-toggle="modal" 
+                                data-bs-target="#modal-delecao" (click)="prepararExclusao(cliente)">
+                                <i class="fas fa-trash" ></i>
                             </button>
                         </td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+    </div>
+
+    <div id="modal-delecao" class="modal fade" role="dialog" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Confirmação</h4>
+                </div>
+                <div class="modal-body" *ngIf="clienteSelecionado">
+                    Deseja realmente excluir o cliente {{ clienteSelecionado.nome }}?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="excluirCliente()">Excluir</button>
+                </div>
+            </div>
         </div>
     </div>
 

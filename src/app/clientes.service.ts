@@ -27,4 +27,11 @@ export class ClientesService {
     return this.http.put<Cliente>(`http://localhost:8080/api/clientes/${cliente.id}`, cliente);
   }
 
+  excluir(cliente: Cliente) : Observable<any> {
+    return this.http.delete<Cliente>(`http://localhost:8080/api/clientes/${cliente.id}`);
+  }
+
+  verificaClienteJaCadastrado(cpf: string) : Observable<any> {
+    return this.http.get<Boolean>(`http://localhost:8080/api/clientes/verificar/${cpf}`);
+  }
 }
