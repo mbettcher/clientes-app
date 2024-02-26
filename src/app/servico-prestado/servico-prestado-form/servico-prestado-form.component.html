@@ -1,6 +1,6 @@
 <h1 class="mt-4">Clientes</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Serviço Presatdo</li>
+        <li class="breadcrumb-item active">Serviço Prestado</li>
     </ol>
 
     <div class="container">
@@ -11,8 +11,10 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label>Cliente: </label>
-                        <select class="form-select">
-                            <option value="">Selecione...</option>
+                        <select class="form-select" 
+                            [ngModelOptions]="{standalone: true}"
+                            [(ngModel)]="servicoPrestado.idCliente">
+                            <option value="" selected>Selecione...</option>
                             <option *ngFor="let cliente of clientes" [ngValue]="cliente.id">
                                 {{ cliente.nome }}
                             </option>
@@ -20,6 +22,38 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Descrição do Servico: </label>
+                        <input class="form-control" [(ngModel)]="servicoPrestado.descricao" type="text" name="descricao" id="inputDescricao">
+                    </div>
+                </div>
+            </div>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Valor do Serviço: </label>
+                        <input class="form-control" [(ngModel)]="servicoPrestado.valor" type="text" name="valor" id="inputValor">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Data: </label>
+                        <input class="form-control" [(ngModel)]="servicoPrestado.data" type="text" name="data" id="inputData">
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            
+            <div class="row">
+                <div class="col-md-3">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fa fa-save"></i>Salvar
+                    </button>
+                </div>
+            </div>
         </form>
     </div>
